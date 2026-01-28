@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0.1 Entrance Test | Базовый уровневый</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-container {
+            margin-bottom: 25px;
+        }
+
+        .logo-frame {
+            width: 250px;
+            height: 100px;
+            border: none;
+            margin: 0 auto 15px;
+            display: block;
+            background: transparent;
+        }
+
+        .test-title {
+            color: #2d3748;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .test-subtitle {
+            color: #718096;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .timer-container {
+            margin: 25px 0;
+        }
+
+        .timer-label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .timer-display {
+            font-size: 64px;
+            font-weight: 900;
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 4px;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 20px;
+            margin: 15px 0;
+            box-shadow: 0 10px 30px rgba(168, 237, 234, 0.4);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .timer-warning {
+            color: #ed8936 !important;
+            background: linear-gradient(135deg, #fed7aa 0%, #fbd38d 100%) !important;
+        }
+
+        .timer-danger {
+            color: #e53e3e !important;
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%) !important;
+            animation: pulse 0.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .timer-message {
+            color: #718096;
+            font-size: 14px;
+            margin-top: 8px;
+            min-height: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 22px 50px;
+            font-size: 22px;
+            font-weight: 700;
+            border-radius: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 15px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn:disabled {
+            background: #ccc !important;
+            color: #888 !important;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 30px 20px; }
+            .logo-frame { width: 200px; height: 80px; }
+            .timer-display { font-size: 48px; padding: 15px; }
+            .btn { padding: 18px 30px; font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo-container">
+                <iframe src="https://drive.google.com/file/d/1xUSLFvnJPdufpiOsfQZ5koZlsHG7tx6N/preview" 
+                        class="logo-frame"
+                        title="Логотип English with Julia Semikolenova">
+                </iframe>
+                
+                <div class="test-title">0.1 Entrance Test</div>
+                <div class="test-subtitle">Базовый уровневый</div>
+            </div>
+
+            <div class="timer-container">
+                <div class="timer-label">
+                    <i class="fas fa-clock"></i> До окончания теста:
+                </div>
+                <div class="timer-display" id="timer">30:00</div>
+                <div class="timer-message" id="timerMessage"></div>
+            </div>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYCp53Yi9MCfwsEUXP_tfOWV6ugiMhKZ6AY-6MWvfVbuycAQ/viewform?usp=pp_url" 
+               target="_blank" 
+               class="btn" 
+               id="testBtn">
+                <i class="fas fa-play-circle"></i> НАЧАТЬ ТЕСТ
+            </a>
+
+            <div class="info">
+                <i class="fas fa-shield-alt"></i> 
+                Доступ к тесту ограничен 30 минутами
+            </div>
+        </div>
+    </div>
+
+    <div id="timeoutPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: #fff; padding: 35px; border-radius: 15px; text-align: center; max-width: 400px; margin: 20px; border: 1px solid #eee;">
+            <div style="font-size: 70px; color: #999; margin-bottom: 20px;">⏰</div>
+            <h2 style="color: #777; margin: 0; font-size: 22px;">Время теста истекло</h2>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_TIME = 30 * 60;
+        let timeLeft = TOTAL_TIME;
+        let timerInterval;
+        
+        const timerElement = document.getElementById('timer');
+        const timerMessage = document.getElementById('timerMessage');
+        const testBtn = document.getElementById('testBtn');
+        const timeoutPopup = document.getElementById('timeoutPopup');
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            timerElement.textContent = formatTime(timeLeft);
+            
+            localStorage.setItem('testTimeLeft', timeLeft);
+            localStorage.setItem('testTimerEnd', Date.now() + timeLeft * 1000);
+            
+            if (timeLeft === 180) {
+                timerElement.classList.add('timer-warning');
+                timerMessage.textContent = 'Осталось менее 3 минут';
+                timerMessage.style.color = '#ed8936';
+            }
+            
+            if (timeLeft === 60) {
+                timerElement.classList.remove('timer-warning');
+                timerElement.classList.add('timer-danger');
+                timerMessage.textContent = 'Осталась 1 минута!';
+                timerMessage.style.color = '#e53e3e';
+            }
+            
+            if (timeLeft <= 0) {
+                endTest();
+            }
+        }
+
+        function endTest() {
+            clearInterval(timerInterval);
+            timerElement.textContent = '00:00';
+            timerElement.classList.add('timer-danger');
+            
+            testBtn.innerHTML = '<i class="fas fa-ban"></i> ВРЕМЯ ИСТЕКЛО';
+            testBtn.disabled = true;
+            testBtn.removeAttribute('href');
+            testBtn.onclick = (e) => {
+                e.preventDefault();
+                timeoutPopup.style.display = 'flex';
+            };
+            
+            localStorage.removeItem('testTimeLeft');
+            localStorage.removeItem('testTimerEnd');
+            timerMessage.textContent = '';
+            
+            setTimeout(() => {
+                timeoutPopup.style.display = 'flex';
+            }, 1500);
+        }
+
+        function restoreTimer() {
+            const savedTime = localStorage.getItem('testTimeLeft');
+            const endTime = localStorage.getItem('testTimerEnd');
+            
+            if (savedTime && endTime) {
+                const now = Date.now();
+                const timeDiff = Math.floor((endTime - now) / 1000);
+                
+                if (timeDiff > 0) {
+                    timeLeft = timeDiff;
+                    // УБРАНО: "Таймер восстановлен"
+                    return true;
+                } else {
+                    localStorage.removeItem('testTimeLeft');
+                    localStorage.removeItem('testTimerEnd');
+                    endTest();
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            if (!restoreTimer()) {
+                timeLeft = TOTAL_TIME;
+                timerMessage.textContent = '';
+            }
+            
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startTimer();
+            
+            testBtn.addEventListener('click', () => {
+                setTimeout(() => {
+                    window.open(testBtn.href, '_blank');
+                }, 100);
+            });
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (timeLeft > 0) {
+                localStorage.setItem('testTimeLeft', timeLeft);
+                localStorage.setItem('testTimerEnd', Date.now() + timeLeft * 1000);
+            }
+        });
+    </script>
+</body>
+</html>
