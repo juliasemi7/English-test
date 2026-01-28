@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>0.1 Entrance Test | Базовый уровневый</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -9,7 +9,7 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
 
         body {
@@ -37,17 +37,22 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        /* Логотип */
         .logo-container {
             margin-bottom: 25px;
         }
 
-        .logo-frame {
-            width: 250px;
-            height: 100px;
-            border: none;
-            margin: 0 auto 15px;
-            display: block;
-            background: transparent;
+        .logo {
+            font-size: 28px;
+            color: #5a67d8;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .logo-sub {
+            color: #718096;
+            font-size: 16px;
+            margin-bottom: 15px;
         }
 
         .test-title {
@@ -60,9 +65,10 @@
         .test-subtitle {
             color: #718096;
             font-size: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
+        /* Таймер */
         .timer-container {
             margin: 25px 0;
         }
@@ -115,6 +121,7 @@
             min-height: 20px;
         }
 
+        /* Кнопка */
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -145,41 +152,55 @@
             box-shadow: none !important;
         }
 
+        /* Информация */
         .info {
             margin-top: 20px;
             font-size: 14px;
             color: #718096;
         }
 
+        /* Мобильная адаптация */
         @media (max-width: 480px) {
-            .card { padding: 30px 20px; }
-            .logo-frame { width: 200px; height: 80px; }
-            .timer-display { font-size: 48px; padding: 15px; }
-            .btn { padding: 18px 30px; font-size: 20px; }
+            .card {
+                padding: 30px 20px;
+            }
+            
+            .timer-display {
+                font-size: 48px;
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 18px 30px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
+            <!-- Логотип -->
             <div class="logo-container">
-                <iframe src="https://drive.google.com/file/d/1xUSLFvnJPdufpiOsfQZ5koZlsHG7tx6N/preview" 
-                        class="logo-frame"
-                        title="Логотип English with Julia Semikolenova">
-                </iframe>
+                <div class="logo">English with Julia Semikolenova</div>
+                <div class="logo-sub">Let's study! English with Wish</div>
                 
                 <div class="test-title">0.1 Entrance Test</div>
                 <div class="test-subtitle">Базовый уровневый</div>
             </div>
 
+            <!-- Таймер -->
             <div class="timer-container">
                 <div class="timer-label">
                     <i class="fas fa-clock"></i> До окончания теста:
                 </div>
-                <div class="timer-display" id="timer">30:00</div>
-                <div class="timer-message" id="timerMessage"></div>
+                <div class="timer-display" id="timer">01:00</div>
+                <div class="timer-message" id="timerMessage">
+                    ⚡ ТЕСТОВЫЙ РЕЖИМ: 1 минута
+                </div>
             </div>
 
+            <!-- Кнопка -->
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfYCp53Yi9MCfwsEUXP_tfOWV6ugiMhKZ6AY-6MWvfVbuycAQ/viewform?usp=pp_url" 
                target="_blank" 
                class="btn" 
@@ -187,13 +208,15 @@
                 <i class="fas fa-play-circle"></i> НАЧАТЬ ТЕСТ
             </a>
 
+            <!-- Информация -->
             <div class="info">
                 <i class="fas fa-shield-alt"></i> 
-                Доступ к тесту ограничен 30 минутами
+                Доступ к тесту ограничен 1 минутой (тестовый режим)
             </div>
         </div>
     </div>
 
+    <!-- Попап при окончании времени -->
     <div id="timeoutPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center;">
         <div style="background: #fff; padding: 35px; border-radius: 15px; text-align: center; max-width: 400px; margin: 20px; border: 1px solid #eee;">
             <div style="font-size: 70px; color: #999; margin-bottom: 20px;">⏰</div>
@@ -202,7 +225,8 @@
     </div>
 
     <script>
-        const TOTAL_TIME = 30 * 60;
+        // ⚠️ ВАЖНО: 1 МИНУТА вместо 30 минут
+        const TOTAL_TIME = 1 * 60; // 1 минута в секундах
         let timeLeft = TOTAL_TIME;
         let timerInterval;
         
@@ -221,19 +245,21 @@
             timeLeft--;
             timerElement.textContent = formatTime(timeLeft);
             
+            // Сохраняем в localStorage (для восстановления)
             localStorage.setItem('testTimeLeft', timeLeft);
             localStorage.setItem('testTimerEnd', Date.now() + timeLeft * 1000);
             
-            if (timeLeft === 180) {
+            // Визуальные эффекты
+            if (timeLeft <= 30) { // 30 секунд
                 timerElement.classList.add('timer-warning');
-                timerMessage.textContent = 'Осталось менее 3 минут';
+                timerMessage.textContent = 'Осталось 30 секунд!';
                 timerMessage.style.color = '#ed8936';
             }
             
-            if (timeLeft === 60) {
+            if (timeLeft <= 10) { // 10 секунд
                 timerElement.classList.remove('timer-warning');
                 timerElement.classList.add('timer-danger');
-                timerMessage.textContent = 'Осталась 1 минута!';
+                timerMessage.textContent = 'ОСТАЛОСЬ 10 СЕКУНД!';
                 timerMessage.style.color = '#e53e3e';
             }
             
@@ -247,6 +273,7 @@
             timerElement.textContent = '00:00';
             timerElement.classList.add('timer-danger');
             
+            // Блокируем кнопку
             testBtn.innerHTML = '<i class="fas fa-ban"></i> ВРЕМЯ ИСТЕКЛО';
             testBtn.disabled = true;
             testBtn.removeAttribute('href');
@@ -255,13 +282,15 @@
                 timeoutPopup.style.display = 'flex';
             };
             
+            // Очищаем localStorage
             localStorage.removeItem('testTimeLeft');
             localStorage.removeItem('testTimerEnd');
-            timerMessage.textContent = '';
+            timerMessage.textContent = 'Тест завершён';
             
+            // Показываем попап через 2 секунды
             setTimeout(() => {
                 timeoutPopup.style.display = 'flex';
-            }, 1500);
+            }, 2000);
         }
 
         function restoreTimer() {
@@ -274,7 +303,6 @@
                 
                 if (timeDiff > 0) {
                     timeLeft = timeDiff;
-                    // УБРАНО: "Таймер восстановлен"
                     return true;
                 } else {
                     localStorage.removeItem('testTimeLeft');
@@ -291,16 +319,20 @@
             
             if (!restoreTimer()) {
                 timeLeft = TOTAL_TIME;
-                timerMessage.textContent = '';
+                timerMessage.textContent = 'Таймер запущен: 1 минута';
+                timerMessage.style.color = '#48bb78';
             }
             
             timerInterval = setInterval(updateTimer, 1000);
             updateTimer();
         }
 
+        // Автозапуск таймера при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Запускаем таймер на 1 минуту...');
             startTimer();
             
+            // Открываем форму в новой вкладке
             testBtn.addEventListener('click', () => {
                 setTimeout(() => {
                     window.open(testBtn.href, '_blank');
@@ -308,6 +340,7 @@
             });
         });
 
+        // Сохраняем состояние при закрытии страницы
         window.addEventListener('beforeunload', () => {
             if (timeLeft > 0) {
                 localStorage.setItem('testTimeLeft', timeLeft);
@@ -316,6 +349,4 @@
         });
     </script>
 </body>
-
 </html>
-
